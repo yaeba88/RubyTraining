@@ -121,8 +121,9 @@ describe 'app.rb' do
       end
 
       it 'returns 500' do
-        delete "/api/todos/#{id}"
-        expect(last_response.status).to eq 500
+        expect(
+          proc { delete "/api/todos/#{id}" }
+        ).to raise_error(RuntimeError)
       end
     end
   end
@@ -152,8 +153,6 @@ describe 'app.rb' do
 
   context 'GET /error' do
     it 'returns 500' do
-      pending('delete this line after you create Rack error catching module')
-
       expect(
           proc { get '/error' }
       ).to raise_error(RuntimeError)

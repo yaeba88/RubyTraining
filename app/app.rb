@@ -43,7 +43,7 @@ class Mosscow < Sinatra::Base
   end
 
   get '/error' do
-    hundle_error
+    fail
   end
 
   get '/' do
@@ -60,8 +60,8 @@ class Mosscow < Sinatra::Base
 
   delete '/api/todos/:id' do
     todo = Todo.where(id: params[:id]).first
-    hundle_error {todo.destroy}
     response.status = 204
+    todo.destroy
     nil
   end
 
@@ -121,4 +121,5 @@ class Mosscow < Sinatra::Base
       end
     end
   end
+
 end
