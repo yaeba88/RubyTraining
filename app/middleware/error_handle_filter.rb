@@ -10,9 +10,9 @@ class ErrorHandleFilter
     @app.call(env)
   rescue
     response = Rack::Response.new {|r|
-      r.status = 400
-      r["Content-Type"] = "text/html"
-      r.write "Bad Request"
+      r.status = 500
+      r["Content-Type"] = "application/json"
+      r.write JSON.dump(message: 'unexpected error')
     }
   end
 end
