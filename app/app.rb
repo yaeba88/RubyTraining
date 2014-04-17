@@ -4,7 +4,6 @@ require 'sinatra/reloader'
 require 'json'
 require 'haml'
 require 'redcarpet'
-require 'error_handle_filter'
 
 require_relative 'models/todo'
 
@@ -73,7 +72,7 @@ class Mosscow < Sinatra::Base
       params = JSON.parse(request.body.read)
     rescue => e
       p e.backtrace unless ENV['RACK_ENV'] == 'test'
-      halt 400, { 'Content-Type' => 'application/json' }, JSON.dump(message: 'set valid JSON for request raw body.')
+      json_halt 400, 'set valid JSON for request raw body.'
     end
 
     todo.is_done = params['is_done']
@@ -84,7 +83,7 @@ class Mosscow < Sinatra::Base
       content_type :json
       JSON.dump(todo.as_json)
     else
-      halt 400, { 'Content-Type' => 'application/json' }, JSON.dump(message: todo.errors.messages)
+      json_halt 400, todo.errors.messages
     end
   end
 
@@ -93,7 +92,7 @@ class Mosscow < Sinatra::Base
       params = JSON.parse(request.body.read)
     rescue => e
       p e.backtrace unless ENV['RACK_ENV'] == 'test'
-      halt 400, { 'Content-Type' => 'application/json' }, JSON.dump(message: 'set valid JSON for request raw body.')
+      json_halt 400, 'set valid JSON for request raw body.'
     end
 
     todo = Todo.new(task_title: params['task_title'],
@@ -105,7 +104,7 @@ class Mosscow < Sinatra::Base
       content_type :json
       JSON.dump(todo.as_json)
     else
-      halt 400, { 'Content-Type' => 'application/json' }, JSON.dump(message: todo.errors.messages)
+      json_halt 400, todo.errors.messages
     end
   end
 
@@ -114,12 +113,8 @@ class Mosscow < Sinatra::Base
   end
 
   helpers do
-    def hundle_error
-      begin
-        yield
-      rescue
-        halt 500, { 'Content-Type' => 'application/json' }, JSON.dump(message: 'unexpected error')
-      end
+    def json_halt(code, message)
+      halt code, { 'Content-Type' => 'application/json' }, JSON.dump(message: message)
     end
   end
 
