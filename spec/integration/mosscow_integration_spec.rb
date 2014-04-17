@@ -1,4 +1,4 @@
-require_relative '../../app/middleware/error_handle_filter'
+require 'error_handle_filter'
 
 describe 'Integration Test' do
   let(:snake_expected){ { 'is_done' => true, 'order' => 1, 'task_title' => 'hoge' } }

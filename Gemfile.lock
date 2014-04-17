@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/yaeba88/error_handle_filter.git
+  revision: a7645d87f47eef85d069966b4c16139d015c9db5
+  specs:
+    error_handle_filter (0.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -14,7 +20,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    arel (5.0.0)
+    arel (5.0.1.20140414130214)
     ast (1.1.0)
     backports (3.6.0)
     builder (3.2.2)
@@ -31,9 +37,9 @@ GEM
     i18n (0.6.9)
     json (1.8.1)
     mime-types (2.2)
-    minitest (5.3.2)
+    minitest (5.3.3)
     multi_json (1.9.2)
-    parser (2.1.7)
+    parser (2.1.8)
       ast (~> 1.1)
       slop (~> 3.4, >= 3.4.5)
     powerpack (0.0.9)
@@ -43,7 +49,7 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     rainbow (2.0.0)
-    rake (10.2.2)
+    rake (10.3.0)
     redcarpet (3.1.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -99,6 +105,7 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls
+  error_handle_filter!
   haml
   rack-test
   rake

@@ -4,6 +4,7 @@ require 'sinatra/reloader'
 require 'json'
 require 'haml'
 require 'redcarpet'
+require 'error_handle_filter'
 
 require_relative 'models/todo'
 

@@ -23,6 +23,7 @@ gem 'sinatra-contrib'
 gem 'sqlite3'
 gem 'haml'
 gem 'redcarpet'
+gem 'error_handle_filter', :git => 'https://github.com/yaeba88/error_handle_filter.git'
 
 # Test requirements
 group :development, :test do
