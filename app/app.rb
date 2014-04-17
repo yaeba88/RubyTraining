@@ -31,24 +31,11 @@ class Mosscow < Sinatra::Base
   end
 
   get '/404' do
-    redirect '404.txt'
+    halt 404
   end
 
   get '/500' do
-    <<"EOS"
-    <html>
-      <head>
-        <title>500 Internal Server Error</title>
-      </head>
-      <body>
-        <h1>Internal Server Error</h1>
-        <img src='images/500.jpg'>
-        <p>
-        なんかだめでしたすみませんすみません:(；ﾞﾟ'ωﾟ')::(；ﾞﾟ'ωﾟ'):
-        </p>
-      </body>
-    </html>
-EOS
+    halt 500, haml(:internal_server_error)
   end
 
   get '/400' do
@@ -56,12 +43,7 @@ EOS
   end
 
   get '/error' do
-    begin
-      fail
-    rescue
-      response.status = 500
-      return nil
-    end
+    hundle_error
   end
 
   get '/' do
@@ -78,12 +60,7 @@ EOS
 
   delete '/api/todos/:id' do
     todo = Todo.where(id: params[:id]).first
-    begin
-      todo.destroy
-    rescue
-      response.status = 500
-      return nil
-    end
+    hundle_error {todo.destroy}
     response.status = 204
     nil
   end
@@ -133,5 +110,15 @@ EOS
 
   after do
     ActiveRecord::Base.connection.close
+  end
+
+  helpers do
+    def hundle_error
+      begin
+        yield
+      rescue
+        halt 500, { 'Content-Type' => 'application/json' }, JSON.dump(message: 'unexpected error')
+      end
+    end
   end
 end
