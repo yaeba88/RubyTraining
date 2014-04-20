@@ -4,14 +4,15 @@ require_relative '../app/string_expansion'
 #require_relative '../app/middleware/string_format_converter'
 
 describe 'app.rb' do
-  let(:updated){  { 'is_done' => false, 'order' => 1, 'task_title' => 'fuga' } }
-  let(:expected){ { 'is_done' => true,  'order' => 1, 'task_title' => 'hoge' } }
+  # let(:updated){  { 'is_done' => false, 'order' => 1, 'task_title' => 'fuga' } }
+  let(:updated){ { 'isDone'  => false, 'order' => 1, 'taskTitle'  => 'hoge' } }
+  # let(:expected){ { 'is_done' => true,  'order' => 1, 'task_title' => 'hoge' } }
+  let(:expected){ { 'isDone'  => true, 'order' => 1, 'taskTitle'  => 'hoge' } }
 
   include Rack::Test::Methods
 
   def app
     Mosscow
-    # @app ||= StringFormatConverter.new(Mosscow)
   end
 
   context 'GET /' do

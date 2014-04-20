@@ -56,7 +56,7 @@ class Mosscow < Sinatra::Base
   get '/api/todos' do
     todos = Todo.all
 
-    json todos.as_json
+    json change_json_key_to_camel(todos.as_json)
   end
 
   delete '/api/todos/:id' do
@@ -75,7 +75,7 @@ class Mosscow < Sinatra::Base
     if todo.valid?
       todo.save!
       response.status = 200
-      json todo.as_json
+      json change_json_key_to_camel(todo.as_json)
     else
       json_halt 400, todo.errors.messages
     end
@@ -90,7 +90,7 @@ class Mosscow < Sinatra::Base
     if todo.valid?
       todo.save!
       response.status = 201
-      json todo.as_json
+      json change_json_key_to_camel(todo.as_json)
     else
       json_halt 400, todo.errors.messages
     end
@@ -109,10 +109,39 @@ class Mosscow < Sinatra::Base
 
     def parse_request
       begin
-        return JSON.parse(request.body.read)
+        json = JSON.parse(request.body.read)
+        return change_json_key_to_snake(json)
       rescue => e
         p e.backtrace unless ENV['RACK_ENV'] == 'test'
         json_halt 400, 'set valid JSON for request raw body.'
+      end
+    end
+
+    def change_json_key_to_camel(json)
+      case json
+      when Array
+        json.map{|e| change_json_key_to_camel(e)}
+      when Hash
+        json.inject({}) do |hash, (k, v)|
+          hash[k.to_camel] = change_json_key_to_camel(v)
+          hash
+        end
+      else
+        json
+      end
+    end
+
+    def change_json_key_to_snake(json)
+      case json
+      when Array
+        json.map{|e| change_json_key_to_snake(e)}
+      when Hash
+        json.inject({}) do |hash, (k, v)|
+          hash[k.to_snake] = change_json_key_to_snake(v)
+          hash
+        end
+      else
+        json
       end
     end
   end
