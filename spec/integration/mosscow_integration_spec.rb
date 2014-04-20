@@ -21,7 +21,7 @@ describe 'Integration Test' do
   end
 
   # Please delete 'broken:true' after you create Rack camel <-> snake converting middleware
-  context 'when api called', broken:true do
+  context 'when api called' do
     context 'GET /api/todos' do
       it 'returns 200' do
         get '/api/todos'
