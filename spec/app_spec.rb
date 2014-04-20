@@ -172,8 +172,6 @@ describe 'app.rb' do
 
   describe 'to_snake' do
     it 'convert camelCase into snake_case' do
-      pending('fix this case depending on your #to_snake method')
-
       expect('snakeCase'.to_snake).to eq 'snake_case'
       expect('SnakeCase'.to_snake).to eq 'snake_case'
       expect('SNAKECase'.to_snake).to eq 'snake_case'
