@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/activerecord'
 require 'sinatra/reloader'
+require 'sinatra/json'
 require 'json'
 require 'haml'
 require 'redcarpet'
@@ -54,8 +55,7 @@ class Mosscow < Sinatra::Base
   get '/api/todos' do
     todos = Todo.all
 
-    content_type :json
-    JSON.dump(todos.as_json)
+    json todos.as_json
   end
 
   delete '/api/todos/:id' do
@@ -80,8 +80,7 @@ class Mosscow < Sinatra::Base
     if todo.valid?
       todo.save!
       response.status = 200
-      content_type :json
-      JSON.dump(todo.as_json)
+      json todo.as_json
     else
       json_halt 400, todo.errors.messages
     end
@@ -101,8 +100,7 @@ class Mosscow < Sinatra::Base
     if todo.valid?
       todo.save!
       response.status = 201
-      content_type :json
-      JSON.dump(todo.as_json)
+      json todo.as_json
     else
       json_halt 400, todo.errors.messages
     end
@@ -116,6 +114,7 @@ class Mosscow < Sinatra::Base
     def json_halt(code, message)
       halt code, { 'Content-Type' => 'application/json' }, JSON.dump(message: message)
     end
+    Sinatra::JSON
   end
 
 end
