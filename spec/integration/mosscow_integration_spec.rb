@@ -1,5 +1,7 @@
 require 'error_handle_filter'
 
+require_relative '../../app/string_expansion'
+
 describe 'Integration Test' do
   let(:snake_expected){ { 'is_done' => true, 'order' => 1, 'task_title' => 'hoge' } }
   let(:camel_expected){ { 'isDone'  => true, 'order' => 1, 'taskTitle'  => 'hoge' } }

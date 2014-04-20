@@ -1,5 +1,7 @@
 require 'json'
 require_relative 'spec_helper'
+require_relative '../app/string_expansion'
+#require_relative '../app/middleware/string_format_converter'
 
 describe 'app.rb' do
   let(:updated){  { 'is_done' => false, 'order' => 1, 'task_title' => 'fuga' } }
@@ -9,6 +11,7 @@ describe 'app.rb' do
 
   def app
     Mosscow
+    # @app ||= StringFormatConverter.new(Mosscow)
   end
 
   context 'GET /' do
@@ -161,8 +164,6 @@ describe 'app.rb' do
 
   describe 'to_camel' do
     it 'convert snake_case into camelCase' do
-      pending('fix this case depending on your #to_camel method')
-
       %w(_camel_case camel_case camel___case camel_case_).each do |word|
         expect(word.to_camel).to eq 'camelCase'
       end
