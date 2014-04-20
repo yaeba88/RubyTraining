@@ -117,6 +117,7 @@ class Mosscow < Sinatra::Base
       end
     end
 
+    # refer to http://qiita.com/labocho/items/9e374de17675cb6114af
     def change_json_key_to_camel(json)
       case json
       when Array
@@ -131,6 +132,7 @@ class Mosscow < Sinatra::Base
       end
     end
 
+    # refer to http://qiita.com/labocho/items/9e374de17675cb6114af
     def change_json_key_to_snake(json)
       case json
       when Array

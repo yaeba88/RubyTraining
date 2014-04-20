@@ -5,8 +5,8 @@ require_relative '../app/string_expansion'
 
 describe 'app.rb' do
   # let(:updated){  { 'is_done' => false, 'order' => 1, 'task_title' => 'fuga' } }
-  let(:updated){ { 'isDone'  => false, 'order' => 1, 'taskTitle'  => 'hoge' } }
   # let(:expected){ { 'is_done' => true,  'order' => 1, 'task_title' => 'hoge' } }
+  let(:updated){ { 'isDone'  => false, 'order' => 1, 'taskTitle'  => 'hoge' } }
   let(:expected){ { 'isDone'  => true, 'order' => 1, 'taskTitle'  => 'hoge' } }
 
   include Rack::Test::Methods
