@@ -56,7 +56,7 @@ class Mosscow < Sinatra::Base
   get '/api/todos' do
     todos = Todo.all
 
-    json change_json_key_to_camel(todos.as_json)
+    json todos.as_json
   end
 
   delete '/api/todos/:id' do
@@ -75,7 +75,7 @@ class Mosscow < Sinatra::Base
     if todo.valid?
       todo.save!
       response.status = 200
-      json change_json_key_to_camel(todo.as_json)
+      json todo.as_json
     else
       json_halt 400, todo.errors.messages
     end
@@ -90,7 +90,7 @@ class Mosscow < Sinatra::Base
     if todo.valid?
       todo.save!
       response.status = 201
-      json change_json_key_to_camel(todo.as_json)
+      json todo.as_json
     else
       json_halt 400, todo.errors.messages
     end
@@ -109,8 +109,7 @@ class Mosscow < Sinatra::Base
 
     def parse_request
       begin
-        json = JSON.parse(request.body.read)
-        return change_json_key_to_snake(json)
+        JSON.parse(request.body.read)
       rescue => e
         p e.backtrace unless ENV['RACK_ENV'] == 'test'
         json_halt 400, 'set valid JSON for request raw body.'

@@ -1,6 +1,7 @@
 require 'error_handle_filter'
 
 require_relative '../../app/string_expansion'
+require_relative '../../app/middleware/string_format_converter'
 
 describe 'Integration Test' do
   let(:snake_expected){ { 'is_done' => true, 'order' => 1, 'task_title' => 'hoge' } }
@@ -17,7 +18,7 @@ describe 'Integration Test' do
   include Rack::Test::Methods
 
   def app
-    @app ||= ErrorHandleFilter.new(Mosscow)
+    @app ||= ErrorHandleFilter.new(StringFormatConverter.new(Mosscow))
   end
 
   # Please delete 'broken:true' after you create Rack camel <-> snake converting middleware
